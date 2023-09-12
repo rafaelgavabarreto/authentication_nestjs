@@ -7,7 +7,7 @@ export class AppService {
     return {
       health: true,
       message: 'OK',
-      version: `${process.env.APP_VER}` ?? '',
+      version: process.env.APP_VER ?? '',
       environment: process.env.NODE_ENV ?? '',
       uptime: process.uptime(),
       timestamp: Date.now(),
