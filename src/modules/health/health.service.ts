@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { GetHealth } from './app.definition';
+import { GetHealth } from './health.definition';
 
 @Injectable()
-export class AppService {
+export class HealthService {
   getHealth(): GetHealth {
     return {
       health: true,
