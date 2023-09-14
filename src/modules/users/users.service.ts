@@ -20,6 +20,15 @@ export class UsersService {
     // return 'This action adds a new user';
   }
 
+  async login(user_id: string, password: string) {
+    const user = await this.findOne({ user_id });
+    const isMatch = bcrypt.compare(password, user!.password);
+    if (!user?.password || !isMatch) {
+      return null;
+    }
+    return user;
+  }
+
   findAll(params: {
     skip?: number;
     take?: number;
