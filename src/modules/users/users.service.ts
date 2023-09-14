@@ -31,30 +31,24 @@ export class UsersService {
     // return `This action returns all users`;
   }
 
-  findOne(
-    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
-  ): Promise<User | null> {
+  findOne(user: Prisma.UserWhereUniqueInput): Promise<User | null> {
     return this.prisma.user.findUnique({
-      where: userWhereUniqueInput,
+      where: user,
     });
     // return `This action returns a #${id} user`;
   }
 
-  update(params: {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.UserUpdateInput;
-  }): Promise<User> {
-    const { where, data } = params;
+  update(user_id: string, data: Prisma.UserUpdateInput): Promise<User> {
     return this.prisma.user.update({
-      where,
+      where: { user_id },
       data,
     });
     // return `This action updates a #${id} user`;
   }
 
-  remove(where: Prisma.UserWhereUniqueInput): Promise<User> {
+  remove(user_id: string): Promise<User> {
     return this.prisma.user.delete({
-      where,
+      where: { user_id },
     });
     // return `This action removes a #${id} user`;
   }

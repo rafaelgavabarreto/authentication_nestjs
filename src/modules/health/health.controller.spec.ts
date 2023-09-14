@@ -5,7 +5,7 @@ import { HealthService } from './health.service';
 import { HttpModule } from '@nestjs/axios';
 
 describe('HealthController', () => {
-  let healthController: HealthController;
+  let controller: HealthController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -14,15 +14,13 @@ describe('HealthController', () => {
       providers: [HealthService],
     }).compile();
 
-    healthController = app.get<HealthController>(HealthController);
+    controller = app.get<HealthController>(HealthController);
   });
 
   describe('get health', () => {
     it('should return basic system info', () => {
       const result = { health: true, message: 'OK' };
-      expect(healthController.getHealth()).toEqual(
-        expect.objectContaining(result),
-      );
+      expect(controller.getHealth()).toEqual(expect.objectContaining(result));
     });
   });
 });

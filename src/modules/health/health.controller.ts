@@ -19,8 +19,7 @@ export class HealthController {
   @HealthCheck()
   check() {
     return this.health.check([
-      async () =>
-        await this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com'),
+      () => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com'),
     ]);
   }
 
