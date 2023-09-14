@@ -42,11 +42,17 @@ describe('Testing UsersService', () => {
     );
   });
 
-  it('should update the user user', async () => {
+  it('should update the user', async () => {
     testUser.first_name = 'Rafa';
     prisma.user.update = jest.fn().mockReturnValueOnce(testUser);
     expect(await service.update(testUser.user_id, testUser)).toStrictEqual(
       testUser,
     );
+  });
+
+  it('should delete the user', async () => {
+    testUser.first_name = 'Rafa';
+    prisma.user.update = jest.fn().mockReturnValueOnce({});
+    expect(await service.remove(testUser.user_id)).toStrictEqual(undefined);
   });
 });
