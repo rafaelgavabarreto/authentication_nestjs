@@ -2,11 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { Logger } from 'config/logger/logger.service';
 // import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: ['error', 'warn'],
+    bufferLogs: true,
   });
   app.enableCors();
 
@@ -22,6 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/swagger', app, document);
   app.use(helmet());
   // app.use(csurf());
+  app.useLogger(app.get(Logger));
   await app.listen(3000);
 }
 bootstrap();
