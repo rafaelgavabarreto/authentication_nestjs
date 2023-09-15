@@ -20,8 +20,14 @@ export class UsersService {
     // return 'This action adds a new user';
   }
 
-  async signIn(user_id: string, password: string) {
-    const user = await this.findOne({ user_id });
+  async signIn(email: string, password: string) {
+    const user = await this.prisma.user.findFirst({
+      where: { email: email },
+      select: { user_id: true, email: true, password: true },
+    });
+    if (!user) {
+      return null;
+    }
     const isMatch = bcrypt.compare(password, user!.password);
     if (!user?.password || !isMatch) {
       return null;

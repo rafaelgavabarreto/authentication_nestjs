@@ -6,8 +6,6 @@ import * as csurf from 'csurf';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(helmet());
-  app.use(csurf());
   app.enableCors();
 
   app.setGlobalPrefix('api/v1');
@@ -20,7 +18,8 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/swagger', app, document);
-
+  app.use(helmet());
+  // app.use(csurf());
   await app.listen(3000);
 }
 bootstrap();

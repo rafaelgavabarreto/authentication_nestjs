@@ -1,14 +1,27 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { SignInAuthenticationDto } from './dto/signIn-authentication.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(private readonly usersService: UsersService) {}
-  signIn(signInAuthenticationDto: SignInAuthenticationDto) {
-    return this.usersService.signIn(
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async signIn(signInAuthenticationDto: SignInAuthenticationDto) {
+    console.log('signInAuthenticationDto', signInAuthenticationDto);
+    const user = await this.usersService.signIn(
       signInAuthenticationDto.email,
       signInAuthenticationDto.password,
     );
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    const payload = { sub: user.user_id, email: user.email };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }
