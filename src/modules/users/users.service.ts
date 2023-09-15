@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../config/prisma/prisma.service';
 import { User, Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -14,6 +14,7 @@ export class UsersService {
 
   async create(data: Prisma.UserCreateInput) {
     data.password = await this.encryptPassword(data.password);
+    Logger.log(`Creating user: ${data.email}`);
     return this.prisma.user.create({
       data,
     });
@@ -32,6 +33,8 @@ export class UsersService {
     if (!user?.password || !isMatch) {
       return null;
     }
+    // this.logger.log(`signIn user: ${user.email}`);
+
     return user;
   }
 

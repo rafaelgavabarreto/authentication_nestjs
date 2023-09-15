@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { SystemConfigModule } from './config/systemConfig.module';
 import { routesModules } from './modules/routes.module';
 import { ThrottlerModule } from '@nestjs/throttler';
@@ -14,5 +14,6 @@ import { ThrottlerModule } from '@nestjs/throttler';
     SystemConfigModule,
     routesModules,
   ],
+  providers: [Logger],
 })
 export class AppModule {}
