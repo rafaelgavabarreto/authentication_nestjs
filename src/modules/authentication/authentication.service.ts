@@ -11,7 +11,6 @@ export class AuthenticationService {
   ) {}
 
   async signIn(signInAuthenticationDto: SignInAuthenticationDto) {
-    console.log('signInAuthenticationDto', signInAuthenticationDto);
     const user = await this.usersService.signIn(
       signInAuthenticationDto.email,
       signInAuthenticationDto.password,
@@ -19,7 +18,7 @@ export class AuthenticationService {
     if (!user) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.user_id, email: user.email };
+    const payload = { user_id: user.user_id, email: user.email };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
