@@ -19,7 +19,16 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:dev:apply": "npx prisma migrate dev"
+    "migrate:push": "npx prisma db push",
+    "migrate:dev:apply": "npx prisma migrate dev",
+    "migrate:dev:create": "npm run migrate:dev:down && npx prisma migrate dev -- name= && npm run migrate:dev:down:after",
+    "migrate:dev:create:only": "npm run migrate:dev:down && npx prisma migrate dev --create-only -- name= && npm run migrate:dev:down:after",
+    "migrate:dev:down": " npx prisma migrate diff --from-schema-datamodel prisma/schema.prisma --to-schema-datasource prisma/schema.prisma --script > prisma/migrations/down.sql",
+    "migrate:dev:down:after": "node ./prisma/migration_down.js",
+    "migrate:dev:reset": "npx prisma migrate reset",
+    "migrate:deploy": "npx prisma migrate deploy",
+    "migrate:seed": "npx prisma db seed",
+    "generate": "npx prisma generate"
   },
   "dependencies": {
     "@nestjs/axios": "^3.0.0",
